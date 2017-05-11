@@ -160,13 +160,166 @@
 
         =============================================================================================================-->
 
-    <!-- __________________________________ acme:document base type _________________________________________________-->
+    <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+             Book Folder Forms
+         ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
 
-    <!-- View and Edit forms for acme:document -->
-
-    <config evaluator="node-type" condition="cm:content">
+    <!-- View and edit forms for Book Folder type -->
+    <config evaluator="node-type" condition="bookpub:bookFolder">
         <forms>
-            <!-- Default form configuration for the cm:content type -->
+            <form>
+                <field-visibility>
+                    <show id="cm:name" />
+                    <show id="cm:title" force="true" />
+                    <show id="cm:description" force="true" />
+
+                    <show id="cm:creator" for-mode="view" />
+                    <show id="cm:created" for-mode="view" />
+                    <show id="cm:modifier" for-mode="view" />
+                    <show id="cm:modified" for-mode="view" />
+
+                    <!-- cm:ownable aspect -->
+                    <show id="cm:owner" />
+
+                    <!-- tags and categories -->
+                    <show id="cm:taggable" for-mode="edit" force="true" />
+                    <show id="cm:categories" />
+
+                    <!-- emailserver:aliasable aspect -->
+                    <show id="emailserver:alias" />
+
+                    <!-- ADDED custom metadata -->
+                    <show id="bookpub:ISBN" for-mode="view"/>
+                    <show id="bookpub:bookTitle"/>
+                    <show id="bookpub:bookGenre"/>
+                    <show id="bookpub:bookAuthors" />
+                    <show id="bookpub:nrOfPages" for-mode="view"/>
+                    <show id="bookpub:nrOfChapters" for-mode="view"/>
+                    <show id="bookpub:bookMetadataStatus" for-mode="view"/>
+                    <show id="bookpub:bookProductionStatus" for-mode="view"/>
+                    <show id="bookpub:webPublishedDate" for-mode="view"/>
+                    <show id="bookpub:webPublishedVersion" for-mode="view"/>
+                    <show id="bookpub:webServerDeliveryOK"/>
+                </field-visibility>
+                <appearance>
+                    <!-- UPDATED appearance -->
+                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
+                    <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookTitle" label-id="form.label.booktitle" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookAuthors" label-id="form.label.bookAuthors" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:nrOfPages" label-id="form.label.nrOfPages" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:nrOfChapters" label-id="form.label.nrOfChapters" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookMetadataStatus" label-id="form.label.bookMetadataStatus" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookProductionStatus" label-id="form.label.bookProductionStatus" set="bookInfoset" read-only="true"/>
+
+                    <set id="publishingInfoSet" appearance="bordered-panel" label-id="form.webPublishingInfo"/>
+                    <field id="bookpub:webPublishedDate" label-id="form.label.webPublishedDate" set="publishingInfoSet" read-only="true"/>
+                    <field id="bookpub:webPublishedVersion" label-id="form.label.webPublishedVersion" set="publishingInfoSet" read-only="true"/>
+                    <field id="bookpub:webServerDeliveryOK" label-id="form.label.webServerDeliveryOK" set="publishingInfoSet" read-only="true"/>
+                </appearance>
+            </form>
+        </forms>
+    </config>
+
+    <!-- Search form for Book Folder type -->
+    <config evaluator="model-type" condition="bookpub:bookFolder">
+        <forms>
+            <form id="search">
+                <field-visibility>
+                    <show id="cm:name" />
+                    <show id="cm:title" force="true" />
+                    <show id="cm:description" force="true" />
+
+                    <!-- ADDED custom metadata -->
+                    <show id="bookpub:ISBN"/>
+                    <show id="bookpub:bookTitle"/>
+                    <show id="bookpub:bookGenre"/>
+                    <show id="bookpub:bookAuthors" />
+                    <show id="bookpub:bookMetadataStatus"/>
+                    <show id="bookpub:bookProductionStatus"/>
+                    <show id="bookpub:webPublishedDate"/>
+                    <show id="bookpub:webPublishedVersion"/>
+                </field-visibility>
+                <appearance>
+                    <!-- UPDATED appearance -->
+                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
+                    <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" />
+                    <field id="bookpub:bookTitle" label-id="form.label.booktitle" set="bookInfoset" />
+                    <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" />
+                    <field id="bookpub:bookAuthors" label-id="form.label.bookAuthors" set="bookInfoset" />
+                    <field id="bookpub:bookMetadataStatus" label-id="form.label.bookMetadataStatus" set="bookInfoset" />
+                    <field id="bookpub:bookProductionStatus" label-id="form.label.bookProductionStatus" set="bookInfoset" />
+
+                    <set id="publishingInfoSet" appearance="bordered-panel" label-id="form.webPublishingInfo"/>
+                    <field id="bookpub:webPublishedDate" label-id="form.label.webPublishedDate" set="publishingInfoSet" />
+                    <field id="bookpub:webPublishedVersion" label-id="form.label.webPublishedVersion" set="publishingInfoSet" />
+                </appearance>
+            </form>
+        </forms>
+    </config>
+
+    <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+             Chapter Folder Forms
+         ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
+    <!-- View and edit forms for Chapter Folder type -->
+    <config evaluator="node-type" condition="bookpub:chapterFolder">
+        <forms>
+            <form>
+                <field-visibility>
+                    <show id="cm:name" />
+                    <show id="cm:title" force="true" />
+                    <show id="cm:description" force="true" />
+
+                    <show id="cm:creator" for-mode="view" />
+                    <show id="cm:created" for-mode="view" />
+                    <show id="cm:modifier" for-mode="view" />
+                    <show id="cm:modified" for-mode="view" />
+
+                    <!-- cm:ownable aspect -->
+                    <show id="cm:owner" />
+
+                    <!-- tags and categories -->
+                    <show id="cm:taggable" for-mode="edit" force="true" />
+                    <show id="cm:categories" />
+
+                    <!-- emailserver:aliasable aspect -->
+                    <show id="emailserver:alias" />
+
+                    <!-- ADDED custom metadata -->
+                    <show id="bookpub:ISBN" for-mode="view"/>
+                    <show id="bookpub:bookGenre" for-mode="view"/>
+                    <show id="bookpub:bookTitle" for-mode="view"/>
+                    <show id="bookpub:chapterNumber" for-mode="view"/>
+                    <show id="bookpub:chapterAuthor" for-mode="view"/>
+                    <show id="bookpub:chapterTitle" for-mode="view"/>
+                    <show id="bookpub:chapterMetadataStatus" for-mode="view"/>
+                </field-visibility>
+                <appearance>
+                    <!-- UPDATED appearance -->
+                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
+                    <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookTitle" label-id="form.label.booktitle" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
+
+                    <set id="chapterInfoSet" appearance="bordered-panel" label-id="form.chapterInfo"/>
+                    <field id="bookpub:chapterNumber" label-id="form.label.chapterNumber" set="chapterInfoSet" read-only="true"/>
+                    <field id="bookpub:chapterAuthor" label-id="form.label.chapterAuthor" set="chapterInfoSet" />
+                    <field id="bookpub:chapterTitle" label-id="form.label.chapterTitle" set="chapterInfoSet" read-only="true"/>
+                    <field id="bookpub:chapterMetadataStatus" label-id="form.label.chapterMetadataStatus" set="chapterInfoSet" read-only="true"/>
+                </appearance>
+            </form>
+        </forms>
+    </config>
+
+    <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+             Book File Forms
+         ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
+    <!-- View and edit forms for Book File type -->
+    <config evaluator="node-type" condition="bookpub:bookFile">
+        <forms>
             <form>
                 <field-visibility>
                     <show id="cm:name" />
@@ -266,54 +419,23 @@
                     <show id="surf:mid"/>
                     <show id="surf:label"/>
 
+                    <!-- ADDED custom metadata -->
+                    <show id="bookpub:ISBN" for-mode="view"/>
+                    <show id="bookpub:bookTitle" for-mode="view"/>
+                    <show id="bookpub:bookGenre" for-mode="view"/>
+                    <show id="bookpub:bookAuthors" for-mode="view"/>
+                    <show id="bookpub:nrOfPages" for-mode="view"/>
+                    <show id="bookpub:nrOfChapters" for-mode="view"/>
                 </field-visibility>
                 <appearance>
-                    <field id="cm:name">
-                        <control>
-                            <control-param name="maxLength">255</control-param>
-                        </control>
-                    </field>
-                    <field id="cm:title">
-                        <control template="/org/alfresco/components/form/controls/textfield.ftl" />
-                    </field>
-                    <field id="cm:description">
-                        <control>
-                            <control-param name="activateLinks">true</control-param>
-                        </control>
-                    </field>
-
-                    <set id="cm:content2cols" template="/org/alfresco/components/form/2-column-set.ftl" />
-
-                    <field set="cm:content2cols" id="mimetype">
-                        <control template="/org/alfresco/components/form/controls/mimetype.ftl" />
-                    </field>
-
-                    <field set="cm:content2cols" id="size">
-                        <control template="/org/alfresco/components/form/controls/size.ftl" />
-                    </field>
-                    <field set="cm:content2cols" id="cm:creator" />
-                    <field set="cm:content2cols" id="cm:created" />
-                    <field set="cm:content2cols" id="cm:modifier" />
-                    <field set="cm:content2cols" id="cm:modified" />
-
-                    <field id="cm:taggable">
-                        <control>
-                            <control-param name="compactMode">true</control-param>
-                            <control-param name="params">aspect=cm:taggable</control-param>
-                            <control-param name="createNewItemUri">/api/tag/workspace/SpacesStore</control-param>
-                            <control-param name="createNewItemIcon">tag</control-param>
-                        </control>
-                    </field>
-                    <field id="cm:categories">
-                        <control>
-                            <control-param name="compactMode">true</control-param>
-                        </control>
-                    </field>
-                    <field id="cm:originator" read-only="true" />
-                    <field id="cm:addressee" read-only="true" />
-                    <field id="cm:addressees" read-only="true" />
-                    <field id="cm:sentdate" read-only="true" />
-                    <field id="cm:subjectline" read-only="true" />
+                    <!-- UPDATED appearance -->
+                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
+                    <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookTitle" label-id="form.label.booktitle" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookAuthors" label-id="form.label.bookAuthors" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:nrOfPages" label-id="form.label.nrOfPages" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:nrOfChapters" label-id="form.label.nrOfChapters" set="bookInfoset" read-only="true"/>
                 </appearance>
             </form>
 
@@ -326,35 +448,25 @@
                     <!-- tags and categories -->
                     <show id="cm:taggable" for-mode="edit" force="true" />
                     <show id="cm:categories" />
+
+                    <!-- ADDED custom metadata -->
+                    <show id="bookpub:ISBN" for-mode="view"/>
+                    <show id="bookpub:bookTitle" for-mode="view"/>
+                    <show id="bookpub:bookGenre" for-mode="view"/>
+                    <show id="bookpub:bookAuthors" for-mode="view"/>
+                    <show id="bookpub:nrOfPages" for-mode="view"/>
+                    <show id="bookpub:nrOfChapters" for-mode="view"/>
                 </field-visibility>
                 <edit-form template="../documentlibrary/forms/doclib-simple-metadata.ftl" />
                 <appearance>
-                    <field id="cm:name">
-                        <control>
-                            <control-param name="maxLength">255</control-param>
-                        </control>
-                    </field>
-                    <field id="cm:title">
-                        <control template="/org/alfresco/components/form/controls/textfield.ftl" />
-                    </field>
-                    <field id="cm:description">
-                        <control>
-                            <control-param name="activateLinks">true</control-param>
-                        </control>
-                    </field>
-                    <field id="cm:taggable">
-                        <control>
-                            <control-param name="compactMode">true</control-param>
-                            <control-param name="params">aspect=cm:taggable</control-param>
-                            <control-param name="createNewItemUri">/api/tag/workspace/SpacesStore</control-param>
-                            <control-param name="createNewItemIcon">tag</control-param>
-                        </control>
-                    </field>
-                    <field id="cm:categories">
-                        <control>
-                            <control-param name="compactMode">true</control-param>
-                        </control>
-                    </field>
+                    <!-- UPDATED appearance -->
+                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
+                    <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookTitle" label-id="form.label.booktitle" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookAuthors" label-id="form.label.bookAuthors" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:nrOfPages" label-id="form.label.nrOfPages" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:nrOfChapters" label-id="form.label.nrOfChapters" set="bookInfoset" read-only="true"/>
                 </appearance>
             </form>
 
@@ -365,63 +477,14 @@
                     <show id="cm:content" force="true" />
                     <show id="cm:title" force="true" />
                     <show id="cm:description" force="true" />
-                </field-visibility>
-                <appearance>
-                    <field id="cm:name">
-                        <control>
-                            <control-param name="maxLength">255</control-param>
-                        </control>
-                    </field>
-                    <field id="cm:title">
-                        <control template="/org/alfresco/components/form/controls/textfield.ftl" />
-                    </field>
-                    <field id="cm:content" label-id="">
-                        <control>
-                            <control-param name="editorAppearance">explorer</control-param>
-                            <control-param name="forceEditor">true</control-param>
-                        </control>
-                    </field>
-                </appearance>
-            </form>
-        </forms>
-    </config>
-
-    <!-- View and edit forms for Book Folder type -->
-    <config evaluator="node-type" condition="bookpub:bookFolder">
-        <forms>
-            <form>
-                <field-visibility>
-                    <show id="cm:name" />
-                    <show id="cm:title" force="true" />
-                    <show id="cm:description" force="true" />
-
-                    <show id="cm:creator" for-mode="view" />
-                    <show id="cm:created" for-mode="view" />
-                    <show id="cm:modifier" for-mode="view" />
-                    <show id="cm:modified" for-mode="view" />
-
-                    <!-- cm:ownable aspect -->
-                    <show id="cm:owner" />
-
-                    <!-- tags and categories -->
-                    <show id="cm:taggable" for-mode="edit" force="true" />
-                    <show id="cm:categories" />
-
-                    <!-- emailserver:aliasable aspect -->
-                    <show id="emailserver:alias" />
 
                     <!-- ADDED custom metadata -->
                     <show id="bookpub:ISBN" for-mode="view"/>
-                    <show id="bookpub:bookGenre"/>
-                    <show id="bookpub:bookTitle"/>
-                    <show id="bookpub:bookAuthors" />
+                    <show id="bookpub:bookTitle" for-mode="view"/>
+                    <show id="bookpub:bookGenre" for-mode="view"/>
+                    <show id="bookpub:bookAuthors" for-mode="view"/>
                     <show id="bookpub:nrOfPages" for-mode="view"/>
                     <show id="bookpub:nrOfChapters" for-mode="view"/>
-                    <show id="bookpub:bookMetadataStatus" for-mode="view"/>
-                    <show id="bookpub:bookProductionStatus" for-mode="view"/>
-                    <show id="bookpub:webPublishedDate" for-mode="view"/>
-                    <show id="bookpub:webPublishedVersion" for-mode="view"/>
-                    <show id="bookpub:webServerDeliveryOK"/>
                 </field-visibility>
                 <appearance>
                     <!-- UPDATED appearance -->
@@ -429,97 +492,17 @@
                     <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookTitle" label-id="form.label.booktitle" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookAuthors" label-id="form.label.bookAuthors" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:nrOfPages" label-id="form.label.nrOfPages" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:nrOfChapters" label-id="form.label.nrOfChapters" set="bookInfoset" read-only="true"/>
-                    <field id="bookpub:bookMetadataStatus" label-id="form.label.bookMetadataStatus" set="bookInfoset" read-only="true"/>
-                    <field id="bookpub:bookProductionStatus" label-id="form.label.bookProductionStatus" set="bookInfoset" read-only="true"/>
-
-                    <set id="publishingInfoSet" appearance="bordered-panel" label-id="form.dartsPublishingInfo"/>
-                    <field id="bookpub:webPublishedDate" label-id="form.label.webPublishedDate" set="publishingInfoSet" read-only="true"/>
-                    <field id="bookpub:webPublishedVersion" label-id="form.label.webPublishedVersion" set="publishingInfoSet" read-only="true"/>
-                    <field id="bookpub:webServerDeliveryOK" label-id="form.label.webServerDeliveryOK" set="publishingInfoSet" read-only="true"/>
                 </appearance>
             </form>
         </forms>
     </config>
 
-    <!-- Search form for Book Folder type -->
-    <config evaluator="model-type" condition="cm:folder">
+    <!-- Search form for Book File type -->
+    <config evaluator="model-type" condition="bookpub:bookFile">
         <forms>
-            <form id="search">
-                <field-visibility>
-                    <show id="cm:name" />
-                    <show id="cm:title" force="true" />
-                    <show id="cm:description" force="true" />
-
-                    <!-- ADDED custom metadata -->
-                    <show id="bookpub:ISBN"/>
-                    <show id="bookpub:bookGenre"/>
-                    <show id="bookpub:bookTitle"/>
-                    <show id="bookpub:bookAuthors" />
-                    <show id="bookpub:bookMetadataStatus"/>
-                    <show id="bookpub:bookProductionStatus"/>
-                    <show id="bookpub:webPublishedDate"/>
-                    <show id="bookpub:webPublishedVersion"/>
-                </field-visibility>
-                <appearance>
-                    <!-- UPDATED appearance -->
-                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
-                    <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
-                    <field id="bookpub:bookTitle" label-id="form.label.booktitle" set="bookInfoset" read-only="true"/>
-                    <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
-                    <field id="bookpub:bookMetadataStatus" label-id="form.label.bookMetadataStatus" set="bookInfoset" read-only="true"/>
-                    <field id="bookpub:bookProductionStatus" label-id="form.label.bookProductionStatus" set="bookInfoset" read-only="true"/>
-
-                    <set id="publishingInfoSet" appearance="bordered-panel" label-id="form.dartsPublishingInfo"/>
-                    <field id="bookpub:webPublishedDate" label-id="form.label.webPublishedDate" set="publishingInfoSet" read-only="true"/>
-                    <field id="bookpub:webPublishedVersion" label-id="form.label.webPublishedVersion" set="publishingInfoSet" read-only="true"/>
-                </appearance>
-            </form>
-        </forms>
-    </config>
-
-
-    <!-- cm:content type (creating nodes) -->
-    <config evaluator="model-type" condition="cm:content">
-        <forms>
-            <!-- Default Create Content form -->
-            <form>
-                <field-visibility>
-                    <show id="cm:name" />
-                    <show id="cm:content" force="true" />
-                    <show id="cm:title" force="true" />
-                    <show id="cm:description" force="true" />
-                    <show id="mimetype" />
-                    <show id="app:editInline" force="true" />
-                </field-visibility>
-                <appearance>
-                    <field id="cm:name">
-                        <control>
-                            <control-param name="maxLength">255</control-param>
-                        </control>
-                    </field>
-                    <field id="cm:title">
-                        <control template="/org/alfresco/components/form/controls/textfield.ftl" />
-                    </field>
-                    <field id="cm:content" label-id="">
-                        <control>
-                            <control-param name="editorAppearance">explorer</control-param>
-                        </control>
-                    </field>
-                    <field id="mimetype">
-                        <control template="/org/alfresco/components/form/controls/hidden.ftl">
-                            <control-param name="contextProperty">mimeType</control-param>
-                        </control>
-                    </field>
-                    <field id="app:editInline">
-                        <control template="/org/alfresco/components/form/controls/hidden.ftl">
-                            <control-param name="contextProperty">editInline</control-param>
-                        </control>
-                    </field>
-                </appearance>
-            </form>
-            <!-- Search form -->
             <form id="search">
                 <field-visibility>
                     <show id="cm:name" />
@@ -528,46 +511,48 @@
                     <show id="mimetype" />
                     <show id="cm:modified" />
                     <show id="cm:modifier" />
+
+                    <!-- ADDED custom metadata -->
+                    <show id="bookpub:ISBN" />
+                    <show id="bookpub:bookTitle" />
+                    <show id="bookpub:bookGenre" />
+                    <show id="bookpub:bookAuthors" />
                 </field-visibility>
                 <appearance>
-                    <field id="mimetype">
-                        <control template="/org/alfresco/components/form/controls/mimetype.ftl" />
-                    </field>
-                    <field id="cm:modifier">
-                        <control>
-                            <control-param name="forceEditable">true</control-param>
-                        </control>
-                    </field>
-                    <field id="cm:modified">
-                        <control template="/org/alfresco/components/form/controls/daterange.ftl" />
-                    </field>
+                    <!-- UPDATED appearance -->
+                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
+                    <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" />
+                    <field id="bookpub:bookTitle" label-id="form.label.booktitle" set="bookInfoset" />
+                    <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" />
+                    <field id="bookpub:bookAuthors" label-id="form.label.bookAuthors" set="bookInfoset" read-only="true"/>
                 </appearance>
             </form>
         </forms>
     </config>
 
+    <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+             Chapter File Forms
+         ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
 
-
-
-    <config evaluator="node-type" condition="acme:document">
+    <!-- View and edit forms for Chapter File type -->
+    <config evaluator="node-type" condition="bookpub:chapterFile">
         <forms>
-            <!-- Default form configuration for the cm:content type -->
             <form>
                 <field-visibility>
-                    <show id="cm:name"/>
-                    <show id="cm:title" force="true"/>
-                    <show id="cm:description" force="true"/>
-                    <show id="mimetype"/>
-                    <show id="cm:author" force="true"/>
-                    <show id="size" for-mode="view"/>
-                    <show id="cm:creator" for-mode="view"/>
-                    <show id="cm:created" for-mode="view"/>
-                    <show id="cm:modifier" for-mode="view"/>
-                    <show id="cm:modified" for-mode="view"/>
+                    <show id="cm:name" />
+                    <show id="cm:title" force="true" />
+                    <show id="cm:description" force="true" />
+                    <show id="mimetype" />
+                    <show id="cm:author" force="true" />
+                    <show id="size" for-mode="view" />
+                    <show id="cm:creator" for-mode="view" />
+                    <show id="cm:created" for-mode="view" />
+                    <show id="cm:modifier" for-mode="view" />
+                    <show id="cm:modified" for-mode="view" />
 
                     <!-- tags and categories -->
-                    <show id="cm:taggable" for-mode="edit" force="true"/>
-                    <show id="cm:categories"/>
+                    <show id="cm:taggable" for-mode="edit" force="true" />
+                    <show id="cm:categories" />
 
                     <!-- cm:dublincore aspect -->
                     <show id="cm:publisher"/>
@@ -580,320 +565,506 @@
                     <show id="cm:subject"/>
 
                     <!-- cm:complianceable aspect -->
-                    <show id="cm:removeAfter"/>
+                    <show id="cm:removeAfter" />
 
                     <!-- cm:effectivity aspect -->
                     <show id="cm:from"/>
                     <show id="cm:to"/>
 
                     <!--  cm:summarizable aspect -->
-                    <show id="cm:summary"/>
+                    <show id="cm:summary" />
 
                     <!-- cm:translatable aspect -->
-                    <show id="cm:translations"/>
+                    <show id="cm:translations" />
 
                     <!-- cm:localizable aspect -->
-                    <show id="cm:locale"/>
+                    <show id="cm:locale" />
 
                     <!-- cm:ownable aspect -->
-                    <show id="cm:owner"/>
+                    <show id="cm:owner" />
 
                     <!-- cm:attachable aspect -->
-                    <show id="cm:attachments"/>
+                    <show id="cm:attachments" />
 
                     <!-- cm:emailed aspect -->
-                    <show id="cm:originator"/>
-                    <show id="cm:addressee"/>
-                    <show id="cm:addressees"/>
-                    <show id="cm:sentdate"/>
-                    <show id="cm:subjectline"/>
+                    <show id="cm:originator" />
+                    <show id="cm:addressee" />
+                    <show id="cm:addressees" />
+                    <show id="cm:sentdate" />
+                    <show id="cm:subjectline" />
 
                     <!-- exif:exif aspect -->
-                    <show id="exif:dateTimeOriginal"/>
-                    <show id="exif:pixelXDimension"/>
-                    <show id="exif:pixelYDimension"/>
-                    <show id="exif:exposureTime"/>
-                    <show id="exif:fNumber"/>
-                    <show id="exif:flash"/>
-                    <show id="exif:focalLength"/>
-                    <show id="exif:isoSpeedRatings"/>
-                    <show id="exif:manufacturer"/>
-                    <show id="exif:model"/>
-                    <show id="exif:software"/>
-                    <show id="exif:orientation"/>
-                    <show id="exif:xResolution"/>
-                    <show id="exif:yResolution"/>
-                    <show id="exif:resolutionUnit"/>
+                    <show id="exif:dateTimeOriginal" />
+                    <show id="exif:pixelXDimension" />
+                    <show id="exif:pixelYDimension" />
+                    <show id="exif:exposureTime" />
+                    <show id="exif:fNumber" />
+                    <show id="exif:flash" />
+                    <show id="exif:focalLength" />
+                    <show id="exif:isoSpeedRatings" />
+                    <show id="exif:manufacturer" />
+                    <show id="exif:model" />
+                    <show id="exif:software" />
+                    <show id="exif:orientation" />
+                    <show id="exif:xResolution" />
+                    <show id="exif:yResolution" />
+                    <show id="exif:resolutionUnit" />
 
                     <!-- audio:audio aspect -->
-                    <show id="audio:album"/>
-                    <show id="audio:artist"/>
-                    <show id="audio:composer"/>
-                    <show id="audio:engineer"/>
-                    <show id="audio:genre"/>
-                    <show id="audio:trackNumber"/>
-                    <show id="audio:releaseDate"/>
-                    <show id="audio:sampleRate"/>
-                    <show id="audio:sampleType"/>
-                    <show id="audio:channelType"/>
-                    <show id="audio:compressor"/>
+                    <show id="audio:album" />
+                    <show id="audio:artist" />
+                    <show id="audio:composer" />
+                    <show id="audio:engineer" />
+                    <show id="audio:genre" />
+                    <show id="audio:trackNumber" />
+                    <show id="audio:releaseDate" />
+                    <show id="audio:sampleRate" />
+                    <show id="audio:sampleType" />
+                    <show id="audio:channelType" />
+                    <show id="audio:compressor" />
 
                     <!-- cm:indexControl aspect -->
-                    <show id="cm:isIndexed"/>
-                    <show id="cm:isContentIndexed"/>
+                    <show id="cm:isIndexed" />
+                    <show id="cm:isContentIndexed" />
 
                     <!-- cm:geographic aspect -->
-                    <show id="cm:latitude"/>
-                    <show id="cm:longitude"/>
+                    <show id="cm:latitude" />
+                    <show id="cm:longitude" />
 
                     <!-- surf:widget aspect -->
                     <show id="surf:widgetType"/>
                     <show id="surf:mid"/>
                     <show id="surf:label"/>
 
-                    <!-- ACME custom props -->
-                    <show id="acme:documentId" force="true"/>
-                    <show id="acme:securityClassification"/>
+                    <!-- ADDED custom metadata -->
+                    <show id="bookpub:ISBN" for-mode="view"/>
+                    <show id="bookpub:bookGenre" for-mode="view"/>
+                    <show id="bookpub:bookTitle" for-mode="view"/>
+                    <show id="bookpub:chapterNumber" for-mode="view"/>
+                    <show id="bookpub:chapterAuthor" for-mode="view"/>
+                    <show id="bookpub:chapterTitle" for-mode="view"/>
+                    <show id="bookpub:chapterMetadataStatus" for-mode="view"/>
                 </field-visibility>
                 <appearance>
-                    <field id="cm:name">
-                        <control>
-                            <control-param name="maxLength">255</control-param>
-                        </control>
-                    </field>
-                    <field id="cm:title">
-                        <control template="/org/alfresco/components/form/controls/textfield.ftl"/>
-                    </field>
-                    <field id="cm:description">
-                        <control>
-                            <control-param name="activateLinks">true</control-param>
-                        </control>
-                    </field>
+                    <!-- UPDATED appearance -->
+                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
+                    <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookTitle" label-id="form.label.booktitle" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
 
-                    <set id="cm:content2cols" template="/org/alfresco/components/form/2-column-set.ftl"/>
-
-                    <field set="cm:content2cols" id="mimetype">
-                        <control template="/org/alfresco/components/form/controls/mimetype.ftl"/>
-                    </field>
-
-                    <field set="cm:content2cols" id="size">
-                        <control template="/org/alfresco/components/form/controls/size.ftl"/>
-                    </field>
-                    <field set="cm:content2cols" id="cm:creator"/>
-                    <field set="cm:content2cols" id="cm:created"/>
-                    <field set="cm:content2cols" id="cm:modifier"/>
-                    <field set="cm:content2cols" id="cm:modified"/>
-
-                    <field id="cm:taggable">
-                        <control>
-                            <control-param name="compactMode">true</control-param>
-                            <control-param name="params">aspect=cm:taggable</control-param>
-                            <control-param name="createNewItemUri">/api/tag/workspace/SpacesStore</control-param>
-                            <control-param name="createNewItemIcon">tag</control-param>
-                        </control>
-                    </field>
-                    <field id="cm:categories">
-                        <control>
-                            <control-param name="compactMode">true</control-param>
-                        </control>
-                    </field>
-                    <field id="cm:originator" read-only="true"/>
-                    <field id="cm:addressee" read-only="true"/>
-                    <field id="cm:addressees" read-only="true"/>
-                    <field id="cm:sentdate" read-only="true"/>
-                    <field id="cm:subjectline" read-only="true"/>
-
-                    <!-- ACME Props appearance -->
-                    <set id="acmeDocSet" appearance="bordered-panel" label-id="form.set.label.acme.document"/>
-                    <field id="acme:documentId" label-id="form.field.label.acme.documentId" set="acmeDocSet">
-                        <control template="/org/alfresco/components/form/controls/textfield.ftl"/>
-                    </field>
-                    <field id="acme:securityClassification" label-id="form.field.label.acme.securityClassification"
-                           set="acmeDocSet"/>
+                    <set id="chapterInfoSet" appearance="bordered-panel" label-id="form.chapterInfo"/>
+                    <field id="bookpub:chapterNumber" label-id="form.label.chapterNumber" set="chapterInfoSet" read-only="true"/>
+                    <field id="bookpub:chapterAuthor" label-id="form.label.chapterAuthor" set="chapterInfoSet" />
+                    <field id="bookpub:chapterTitle" label-id="form.label.chapterTitle" set="chapterInfoSet" read-only="true"/>
+                    <field id="bookpub:chapterMetadataStatus" label-id="form.label.chapterMetadataStatus" set="chapterInfoSet" read-only="true"/>
                 </appearance>
             </form>
 
             <!-- Document Library pop-up Edit Metadata form -->
             <form id="doclib-simple-metadata">
                 <field-visibility>
-                    <show id="cm:name"/>
-                    <show id="cm:title" force="true"/>
-                    <show id="cm:description" force="true"/>
+                    <show id="cm:name" />
+                    <show id="cm:title" force="true" />
+                    <show id="cm:description" force="true" />
                     <!-- tags and categories -->
-                    <show id="cm:taggable" for-mode="edit" force="true"/>
-                    <show id="cm:categories"/>
+                    <show id="cm:taggable" for-mode="edit" force="true" />
+                    <show id="cm:categories" />
 
-                    <!-- ACME custom props -->
-                    <show id="acme:documentId" force="true"/>
-                    <show id="acme:securityClassification"/>
+                    <!-- ADDED custom metadata -->
+                    <show id="bookpub:ISBN" for-mode="view"/>
+                    <show id="bookpub:bookGenre" for-mode="view"/>
+                    <show id="bookpub:bookTitle" for-mode="view"/>
+                    <show id="bookpub:chapterNumber" for-mode="view"/>
+                    <show id="bookpub:chapterAuthor" for-mode="view"/>
+                    <show id="bookpub:chapterTitle" for-mode="view"/>
+                    <show id="bookpub:chapterMetadataStatus" for-mode="view"/>
                 </field-visibility>
-                <edit-form template="../documentlibrary/forms/doclib-simple-metadata.ftl"/>
+                <edit-form template="../documentlibrary/forms/doclib-simple-metadata.ftl" />
                 <appearance>
-                    <field id="cm:name">
-                        <control>
-                            <control-param name="maxLength">255</control-param>
-                        </control>
-                    </field>
-                    <field id="cm:title">
-                        <control template="/org/alfresco/components/form/controls/textfield.ftl"/>
-                    </field>
-                    <field id="cm:description">
-                        <control>
-                            <control-param name="activateLinks">true</control-param>
-                        </control>
-                    </field>
-                    <field id="cm:taggable">
-                        <control>
-                            <control-param name="compactMode">true</control-param>
-                            <control-param name="params">aspect=cm:taggable</control-param>
-                            <control-param name="createNewItemUri">/api/tag/workspace/SpacesStore</control-param>
-                            <control-param name="createNewItemIcon">tag</control-param>
-                        </control>
-                    </field>
-                    <field id="cm:categories">
-                        <control>
-                            <control-param name="compactMode">true</control-param>
-                        </control>
-                    </field>
+                    <!-- UPDATED appearance -->
+                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
+                    <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookTitle" label-id="form.label.booktitle" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
 
-                    <!-- ACME Props appearance -->
-                    <set id="acmeDocSet" appearance="bordered-panel" label-id="form.set.label.acme.document"/>
-                    <field id="acme:documentId" label-id="form.field.label.acme.documentId" set="acmeDocSet">
-                        <control template="/org/alfresco/components/form/controls/textfield.ftl"/>
-                    </field>
-                    <field id="acme:securityClassification" label-id="form.field.label.acme.securityClassification"
-                           set="acmeDocSet"/>
+                    <set id="chapterInfoSet" appearance="bordered-panel" label-id="form.chapterInfo"/>
+                    <field id="bookpub:chapterNumber" label-id="form.label.chapterNumber" set="chapterInfoSet" read-only="true"/>
+                    <field id="bookpub:chapterAuthor" label-id="form.label.chapterAuthor" set="chapterInfoSet" />
+                    <field id="bookpub:chapterTitle" label-id="form.label.chapterTitle" set="chapterInfoSet" read-only="true"/>
+                    <field id="bookpub:chapterMetadataStatus" label-id="form.label.chapterMetadataStatus" set="chapterInfoSet" read-only="true"/>
                 </appearance>
             </form>
 
             <!-- Document Library Inline Edit form -->
             <form id="doclib-inline-edit">
                 <field-visibility>
-                    <show id="cm:name"/>
-                    <show id="cm:content" force="true"/>
-                    <show id="cm:title" force="true"/>
-                    <show id="cm:description" force="true"/>
+                    <show id="cm:name" />
+                    <show id="cm:content" force="true" />
+                    <show id="cm:title" force="true" />
+                    <show id="cm:description" force="true" />
 
-                    <!-- ACME custom props -->
-                    <show id="acme:documentId" force="true"/>
-                    <show id="acme:securityClassification"/>
+                    <!-- ADDED custom metadata -->
+                    <show id="bookpub:ISBN" for-mode="view"/>
+                    <show id="bookpub:bookGenre" for-mode="view"/>
+                    <show id="bookpub:bookTitle" for-mode="view"/>
+                    <show id="bookpub:chapterNumber" for-mode="view"/>
+                    <show id="bookpub:chapterAuthor" for-mode="view"/>
+                    <show id="bookpub:chapterTitle" for-mode="view"/>
+                    <show id="bookpub:chapterMetadataStatus" for-mode="view"/>
                 </field-visibility>
                 <appearance>
-                    <field id="cm:name">
-                        <control>
-                            <control-param name="maxLength">255</control-param>
-                        </control>
-                    </field>
-                    <field id="cm:title">
-                        <control template="/org/alfresco/components/form/controls/textfield.ftl"/>
-                    </field>
-                    <field id="cm:content" label-id="">
-                        <control>
-                            <control-param name="editorAppearance">explorer</control-param>
-                            <control-param name="forceEditor">true</control-param>
-                        </control>
-                    </field>
+                    <!-- UPDATED appearance -->
+                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
+                    <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookTitle" label-id="form.label.booktitle" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
 
-                    <!-- ACME Props appearance -->
-                    <set id="acmeDocSet" appearance="bordered-panel" label-id="form.set.label.acme.document"/>
-                    <field id="acme:documentId" label-id="form.field.label.acme.documentId" set="acmeDocSet">
-                        <control template="/org/alfresco/components/form/controls/textfield.ftl"/>
-                    </field>
-                    <field id="acme:securityClassification" label-id="form.field.label.acme.securityClassification"
-                           set="acmeDocSet"/>
+                    <set id="chapterInfoSet" appearance="bordered-panel" label-id="form.chapterInfo"/>
+                    <field id="bookpub:chapterNumber" label-id="form.label.chapterNumber" set="chapterInfoSet" read-only="true"/>
+                    <field id="bookpub:chapterAuthor" label-id="form.label.chapterAuthor" set="chapterInfoSet" />
+                    <field id="bookpub:chapterTitle" label-id="form.label.chapterTitle" set="chapterInfoSet" read-only="true"/>
+                    <field id="bookpub:chapterMetadataStatus" label-id="form.label.chapterMetadataStatus" set="chapterInfoSet" read-only="true"/>
                 </appearance>
             </form>
         </forms>
     </config>
 
-    <!-- Create and search forms for acme:document -->
-    <config evaluator="model-type" condition="acme:document">
+    <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+             Artwork File Forms
+         ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
+    <!-- View and edit forms for Artwork File type -->
+    <config evaluator="node-type" condition="bookpub:artworkFile">
         <forms>
             <form>
                 <field-visibility>
-                    <show id="cm:name"/>
-                    <show id="cm:content" force="true"/>
-                    <show id="cm:title" force="true"/>
-                    <show id="cm:description" force="true"/>
-                    <show id="mimetype"/>
-                    <show id="app:editInline" force="true"/>
+                    <show id="cm:name" />
+                    <show id="cm:title" force="true" />
+                    <show id="cm:description" force="true" />
+                    <show id="mimetype" />
+                    <show id="cm:author" force="true" />
+                    <show id="size" for-mode="view" />
+                    <show id="cm:creator" for-mode="view" />
+                    <show id="cm:created" for-mode="view" />
+                    <show id="cm:modifier" for-mode="view" />
+                    <show id="cm:modified" for-mode="view" />
 
-                    <!-- ACME custom props -->
-                    <show id="acme:documentId" force="true"/>
-                    <show id="acme:securityClassification"/>
+                    <!-- tags and categories -->
+                    <show id="cm:taggable" for-mode="edit" force="true" />
+                    <show id="cm:categories" />
+
+                    <!-- cm:dublincore aspect -->
+                    <show id="cm:publisher"/>
+                    <show id="cm:contributor"/>
+                    <show id="cm:type"/>
+                    <show id="cm:identifier"/>
+                    <show id="cm:dcsource"/>
+                    <show id="cm:coverage"/>
+                    <show id="cm:rights"/>
+                    <show id="cm:subject"/>
+
+                    <!-- cm:complianceable aspect -->
+                    <show id="cm:removeAfter" />
+
+                    <!-- cm:effectivity aspect -->
+                    <show id="cm:from"/>
+                    <show id="cm:to"/>
+
+                    <!--  cm:summarizable aspect -->
+                    <show id="cm:summary" />
+
+                    <!-- cm:translatable aspect -->
+                    <show id="cm:translations" />
+
+                    <!-- cm:localizable aspect -->
+                    <show id="cm:locale" />
+
+                    <!-- cm:ownable aspect -->
+                    <show id="cm:owner" />
+
+                    <!-- cm:attachable aspect -->
+                    <show id="cm:attachments" />
+
+                    <!-- cm:emailed aspect -->
+                    <show id="cm:originator" />
+                    <show id="cm:addressee" />
+                    <show id="cm:addressees" />
+                    <show id="cm:sentdate" />
+                    <show id="cm:subjectline" />
+
+                    <!-- exif:exif aspect -->
+                    <show id="exif:dateTimeOriginal" />
+                    <show id="exif:pixelXDimension" />
+                    <show id="exif:pixelYDimension" />
+                    <show id="exif:exposureTime" />
+                    <show id="exif:fNumber" />
+                    <show id="exif:flash" />
+                    <show id="exif:focalLength" />
+                    <show id="exif:isoSpeedRatings" />
+                    <show id="exif:manufacturer" />
+                    <show id="exif:model" />
+                    <show id="exif:software" />
+                    <show id="exif:orientation" />
+                    <show id="exif:xResolution" />
+                    <show id="exif:yResolution" />
+                    <show id="exif:resolutionUnit" />
+
+                    <!-- audio:audio aspect -->
+                    <show id="audio:album" />
+                    <show id="audio:artist" />
+                    <show id="audio:composer" />
+                    <show id="audio:engineer" />
+                    <show id="audio:genre" />
+                    <show id="audio:trackNumber" />
+                    <show id="audio:releaseDate" />
+                    <show id="audio:sampleRate" />
+                    <show id="audio:sampleType" />
+                    <show id="audio:channelType" />
+                    <show id="audio:compressor" />
+
+                    <!-- cm:indexControl aspect -->
+                    <show id="cm:isIndexed" />
+                    <show id="cm:isContentIndexed" />
+
+                    <!-- cm:geographic aspect -->
+                    <show id="cm:latitude" />
+                    <show id="cm:longitude" />
+
+                    <!-- surf:widget aspect -->
+                    <show id="surf:widgetType"/>
+                    <show id="surf:mid"/>
+                    <show id="surf:label"/>
+
+                    <!-- ADDED custom metadata -->
+                    <show id="bookpub:ISBN" for-mode="view"/>
+                    <show id="bookpub:bookTitle" for-mode="view"/>
+                    <show id="bookpub:bookGenre" for-mode="view"/>
                 </field-visibility>
                 <appearance>
-                    <field id="cm:name">
-                        <control>
-                            <control-param name="maxLength">255</control-param>
-                        </control>
-                    </field>
-                    <field id="cm:title">
-                        <control template="/org/alfresco/components/form/controls/textfield.ftl"/>
-                    </field>
-                    <field id="cm:content" label-id="">
-                        <control>
-                            <control-param name="editorAppearance">explorer</control-param>
-                        </control>
-                    </field>
-                    <field id="mimetype">
-                        <control template="/org/alfresco/components/form/controls/hidden.ftl">
-                            <control-param name="contextProperty">mimeType</control-param>
-                        </control>
-                    </field>
-                    <field id="app:editInline">
-                        <control template="/org/alfresco/components/form/controls/hidden.ftl">
-                            <control-param name="contextProperty">editInline</control-param>
-                        </control>
-                    </field>
-
-                    <!-- ACME Props appearance -->
-                    <set id="acmeDocSet" appearance="bordered-panel" label-id="form.set.label.acme.document"/>
-                    <field id="acme:documentId" label-id="form.field.label.acme.documentId" set="acmeDocSet">
-                        <control template="/org/alfresco/components/form/controls/textfield.ftl"/>
-                    </field>
-                    <field id="acme:securityClassification" label-id="form.field.label.acme.securityClassification"
-                           set="acmeDocSet"/>
+                    <!-- UPDATED appearance -->
+                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
+                    <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookTitle" label-id="form.label.booktitle" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
                 </appearance>
             </form>
-            <!-- Search form -->
-            <form id="search">
-                <field-visibility>
-                    <show id="cm:name"/>
-                    <show id="cm:title" force="true"/>
-                    <show id="cm:description" force="true"/>
-                    <show id="mimetype"/>
-                    <show id="cm:modified"/>
-                    <show id="cm:modifier"/>
 
-                    <!-- ACME custom props -->
-                    <show id="acme:documentId" force="true"/>
-                    <show id="acme:securityClassification"/>
+            <!-- Document Library pop-up Edit Metadata form -->
+            <form id="doclib-simple-metadata">
+                <field-visibility>
+                    <show id="cm:name" />
+                    <show id="cm:title" force="true" />
+                    <show id="cm:description" force="true" />
+                    <!-- tags and categories -->
+                    <show id="cm:taggable" for-mode="edit" force="true" />
+                    <show id="cm:categories" />
+
+                    <!-- ADDED custom metadata -->
+                    <show id="bookpub:ISBN" for-mode="view"/>
+                    <show id="bookpub:bookTitle" for-mode="view"/>
+                    <show id="bookpub:bookGenre" for-mode="view"/>
+                </field-visibility>
+                <edit-form template="../documentlibrary/forms/doclib-simple-metadata.ftl" />
+                <appearance>
+                    <!-- UPDATED appearance -->
+                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
+                    <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookTitle" label-id="form.label.booktitle" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
+                </appearance>
+            </form>
+
+            <!-- Document Library Inline Edit form -->
+            <form id="doclib-inline-edit">
+                <field-visibility>
+                    <show id="cm:name" />
+                    <show id="cm:content" force="true" />
+                    <show id="cm:title" force="true" />
+                    <show id="cm:description" force="true" />
+
+                    <!-- ADDED custom metadata -->
+                    <show id="bookpub:ISBN" for-mode="view"/>
+                    <show id="bookpub:bookTitle" for-mode="view"/>
+                    <show id="bookpub:bookGenre" for-mode="view"/>
                 </field-visibility>
                 <appearance>
-                    <field id="mimetype">
-                        <control template="/org/alfresco/components/form/controls/mimetype.ftl"/>
-                    </field>
-                    <field id="cm:modifier">
-                        <control>
-                            <control-param name="forceEditable">true</control-param>
-                        </control>
-                    </field>
-                    <field id="cm:modified">
-                        <control template="/org/alfresco/components/form/controls/daterange.ftl"/>
-                    </field>
-
-                    <!-- ACME Props appearance -->
-                    <set id="acmeDocSet" appearance="bordered-panel" label-id="form.set.label.acme.document"/>
-                    <field id="acme:documentId" label-id="form.field.label.acme.documentId" set="acmeDocSet">
-                        <control template="/org/alfresco/components/form/controls/textfield.ftl"/>
-                    </field>
-                    <field id="acme:securityClassification" label-id="form.field.label.acme.securityClassification"
-                           set="acmeDocSet"/>
+                    <!-- UPDATED appearance -->
+                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
+                    <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookTitle" label-id="form.label.booktitle" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
                 </appearance>
             </form>
         </forms>
     </config>
 
+    <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+             Supplementary File Forms
+         ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
+    <!-- View and edit forms for Supplementary File type -->
+    <config evaluator="node-type" condition="bookpub:supplementaryFile">
+        <forms>
+            <form>
+                <field-visibility>
+                    <show id="cm:name" />
+                    <show id="cm:title" force="true" />
+                    <show id="cm:description" force="true" />
+                    <show id="mimetype" />
+                    <show id="cm:author" force="true" />
+                    <show id="size" for-mode="view" />
+                    <show id="cm:creator" for-mode="view" />
+                    <show id="cm:created" for-mode="view" />
+                    <show id="cm:modifier" for-mode="view" />
+                    <show id="cm:modified" for-mode="view" />
+
+                    <!-- tags and categories -->
+                    <show id="cm:taggable" for-mode="edit" force="true" />
+                    <show id="cm:categories" />
+
+                    <!-- cm:dublincore aspect -->
+                    <show id="cm:publisher"/>
+                    <show id="cm:contributor"/>
+                    <show id="cm:type"/>
+                    <show id="cm:identifier"/>
+                    <show id="cm:dcsource"/>
+                    <show id="cm:coverage"/>
+                    <show id="cm:rights"/>
+                    <show id="cm:subject"/>
+
+                    <!-- cm:complianceable aspect -->
+                    <show id="cm:removeAfter" />
+
+                    <!-- cm:effectivity aspect -->
+                    <show id="cm:from"/>
+                    <show id="cm:to"/>
+
+                    <!--  cm:summarizable aspect -->
+                    <show id="cm:summary" />
+
+                    <!-- cm:translatable aspect -->
+                    <show id="cm:translations" />
+
+                    <!-- cm:localizable aspect -->
+                    <show id="cm:locale" />
+
+                    <!-- cm:ownable aspect -->
+                    <show id="cm:owner" />
+
+                    <!-- cm:attachable aspect -->
+                    <show id="cm:attachments" />
+
+                    <!-- cm:emailed aspect -->
+                    <show id="cm:originator" />
+                    <show id="cm:addressee" />
+                    <show id="cm:addressees" />
+                    <show id="cm:sentdate" />
+                    <show id="cm:subjectline" />
+
+                    <!-- exif:exif aspect -->
+                    <show id="exif:dateTimeOriginal" />
+                    <show id="exif:pixelXDimension" />
+                    <show id="exif:pixelYDimension" />
+                    <show id="exif:exposureTime" />
+                    <show id="exif:fNumber" />
+                    <show id="exif:flash" />
+                    <show id="exif:focalLength" />
+                    <show id="exif:isoSpeedRatings" />
+                    <show id="exif:manufacturer" />
+                    <show id="exif:model" />
+                    <show id="exif:software" />
+                    <show id="exif:orientation" />
+                    <show id="exif:xResolution" />
+                    <show id="exif:yResolution" />
+                    <show id="exif:resolutionUnit" />
+
+                    <!-- audio:audio aspect -->
+                    <show id="audio:album" />
+                    <show id="audio:artist" />
+                    <show id="audio:composer" />
+                    <show id="audio:engineer" />
+                    <show id="audio:genre" />
+                    <show id="audio:trackNumber" />
+                    <show id="audio:releaseDate" />
+                    <show id="audio:sampleRate" />
+                    <show id="audio:sampleType" />
+                    <show id="audio:channelType" />
+                    <show id="audio:compressor" />
+
+                    <!-- cm:indexControl aspect -->
+                    <show id="cm:isIndexed" />
+                    <show id="cm:isContentIndexed" />
+
+                    <!-- cm:geographic aspect -->
+                    <show id="cm:latitude" />
+                    <show id="cm:longitude" />
+
+                    <!-- surf:widget aspect -->
+                    <show id="surf:widgetType"/>
+                    <show id="surf:mid"/>
+                    <show id="surf:label"/>
+
+                    <!-- ADDED custom metadata -->
+                    <show id="bookpub:ISBN" for-mode="view"/>
+                    <show id="bookpub:bookTitle" for-mode="view"/>
+                    <show id="bookpub:bookGenre" for-mode="view"/>
+                </field-visibility>
+                <appearance>
+                    <!-- UPDATED appearance -->
+                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
+                    <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookTitle" label-id="form.label.booktitle" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
+                </appearance>
+            </form>
+
+            <!-- Document Library pop-up Edit Metadata form -->
+            <form id="doclib-simple-metadata">
+                <field-visibility>
+                    <show id="cm:name" />
+                    <show id="cm:title" force="true" />
+                    <show id="cm:description" force="true" />
+                    <!-- tags and categories -->
+                    <show id="cm:taggable" for-mode="edit" force="true" />
+                    <show id="cm:categories" />
+
+                    <!-- ADDED custom metadata -->
+                    <show id="bookpub:ISBN" for-mode="view"/>
+                    <show id="bookpub:bookTitle" for-mode="view"/>
+                    <show id="bookpub:bookGenre" for-mode="view"/>
+                </field-visibility>
+                <edit-form template="../documentlibrary/forms/doclib-simple-metadata.ftl" />
+                <appearance>
+                    <!-- UPDATED appearance -->
+                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
+                    <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookTitle" label-id="form.label.booktitle" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
+                </appearance>
+            </form>
+
+            <!-- Document Library Inline Edit form -->
+            <form id="doclib-inline-edit">
+                <field-visibility>
+                    <show id="cm:name" />
+                    <show id="cm:content" force="true" />
+                    <show id="cm:title" force="true" />
+                    <show id="cm:description" force="true" />
+
+                    <!-- ADDED custom metadata -->
+                    <show id="bookpub:ISBN" for-mode="view"/>
+                    <show id="bookpub:bookTitle" for-mode="view"/>
+                    <show id="bookpub:bookGenre" for-mode="view"/>
+                </field-visibility>
+                <appearance>
+                    <!-- UPDATED appearance -->
+                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
+                    <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookTitle" label-id="form.label.booktitle" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
+                </appearance>
+            </form>
+        </forms>
+    </config>
 
 </alfresco-config>
