@@ -32,10 +32,25 @@
                        icon="book-publish-16.png"
                        index="100"
                        label="indicator.label.doclib.action.bookWebPublished">
-                <evaluator>evaluator.doclib.indicator.bookFolderType</evaluator>
-                <evaluator>evaluator.doclib.indicator.bookFolderPublished</evaluator>
+                <evaluator>evaluator.doclib.bestpub.bookFolderType</evaluator>
+                <evaluator>evaluator.doclib.bestpub.bookFolderPublished</evaluator>
             </indicator>
         </indicators>
+
+        <metadata-templates>
+            <template id="isBookInfo">
+                <evaluator>evaluator.doclib.bestpub.hasBookInfo</evaluator>
+                <banner index="10" id="lockBanner" evaluator="evaluator.doclib.metadata.hasLockBanner">{lockBanner}</banner>
+                <banner index="20" id="syncTransientError" evaluator="evaluator.doclib.metadata.hasSyncTransientErrorBanner">{syncTransientError}</banner>
+                <banner index="30" id="syncFailed" evaluator="evaluator.doclib.metadata.hasSyncFailedBanner">{syncFailed}</banner>
+                <line index="10" id="date">{date}{size}</line>
+                <line index="20" id="bookInfo" view="detailed">{bookpub_ISBN form.label.isbn}{bookpub_nrOfPages form.label.nrOfPages}</line>
+                <line index="30" id="bookTitle" view="detailed">{bookpub_bookTitle form.label.bookTitle}</line>
+                <line index="40" id="tags" view="detailed">{tags}</line>
+                <line index="50" id="categories" view="detailed" evaluator="evaluator.doclib.metadata.hasCategories">{categories}</line>
+                <line index="60" id="social" view="detailed">{social}</line>
+            </template>
+        </metadata-templates>
     </config>
 
     <!--================================================================================================================
@@ -89,7 +104,7 @@
                 <evaluator>evaluator.doclib.action.editableByCurrentUser</evaluator>
                 <evaluator>evaluator.doclib.action.isNotPartOfHybridWorklfow</evaluator>
                 <evaluator>evaluator.doclib.action.isDeletable</evaluator>
-                <evaluator negate="true">evaluator.doclib.indicator.chapterFolderType</evaluator>
+                <evaluator negate="true">evaluator.doclib.bestpub.chapterFolderType</evaluator>
             </action>
 
             <!-- Custom Best Publishing DocLib actions -->
@@ -100,8 +115,8 @@
                 <param name="function">onActionPublishToWeb</param>
                 <param name="successMessage">message.publish-web.success</param>
                 <param name="failureMessage">message.publish-web.failure</param>
-                <evaluator>evaluator.doclib.indicator.bookFolderType</evaluator>
-                <evaluator>evaluator.doclib.indicator.bookFolderPublished</evaluator>
+                <evaluator>evaluator.doclib.bestpub.bookFolderType</evaluator>
+                <evaluator>evaluator.doclib.bestpub.bookFolderPublished</evaluator>
                 <evaluator>evaluator.doclib.indicator.isMetadataUpdated</evaluator>
             </action>
             <action id="bestpub.doclib.action.createChapterFolder"
@@ -119,7 +134,7 @@
                 <permissions>
                     <permission allow="true">Write</permission>
                 </permissions>
-                <evaluator>evaluator.doclib.indicator.bookFolderType</evaluator>
+                <evaluator>evaluator.doclib.bestpub.bookFolderType</evaluator>
             </action>
             <action id="bestpub.doclib.action.deleteChapterFolder"
                     icon="chapter-delete"
@@ -131,7 +146,7 @@
                 <permissions>
                     <permission allow="true">Delete</permission>
                 </permissions>
-                <evaluator>evaluator.doclib.indicator.chapterFolderType</evaluator>
+                <evaluator>evaluator.doclib.bestpub.chapterFolderType</evaluator>
             </action>
         </actions>
         <actionGroups>
@@ -205,7 +220,7 @@
                     <!-- UPDATED appearance -->
                     <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
                     <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
-                    <field id="bookpub:bookTitle" label-id="form.label.booktitle" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookTitle" label-id="form.label.bookTitle" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookAuthors" label-id="form.label.bookAuthors" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:nrOfPages" label-id="form.label.nrOfPages" set="bookInfoset" read-only="true"/>
@@ -245,7 +260,7 @@
                     <!-- UPDATED appearance -->
                     <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
                     <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" />
-                    <field id="bookpub:bookTitle" label-id="form.label.booktitle" set="bookInfoset" />
+                    <field id="bookpub:bookTitle" label-id="form.label.bookTitle" set="bookInfoset" />
                     <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" />
                     <field id="bookpub:bookAuthors" label-id="form.label.bookAuthors" set="bookInfoset" />
                     <field id="bookpub:bookMetadataStatus" label-id="form.label.bookMetadataStatus" set="bookInfoset" />
@@ -300,7 +315,7 @@
                     <!-- UPDATED appearance -->
                     <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
                     <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
-                    <field id="bookpub:bookTitle" label-id="form.label.booktitle" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookTitle" label-id="form.label.bookTitle" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
 
                     <set id="chapterInfoSet" appearance="bordered-panel" label-id="form.chapterInfo"/>
@@ -431,7 +446,7 @@
                     <!-- UPDATED appearance -->
                     <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
                     <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
-                    <field id="bookpub:bookTitle" label-id="form.label.booktitle" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookTitle" label-id="form.label.bookTitle" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookAuthors" label-id="form.label.bookAuthors" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:nrOfPages" label-id="form.label.nrOfPages" set="bookInfoset" read-only="true"/>
@@ -462,7 +477,7 @@
                     <!-- UPDATED appearance -->
                     <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
                     <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
-                    <field id="bookpub:bookTitle" label-id="form.label.booktitle" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookTitle" label-id="form.label.bookTitle" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookAuthors" label-id="form.label.bookAuthors" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:nrOfPages" label-id="form.label.nrOfPages" set="bookInfoset" read-only="true"/>
@@ -490,7 +505,7 @@
                     <!-- UPDATED appearance -->
                     <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
                     <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
-                    <field id="bookpub:bookTitle" label-id="form.label.booktitle" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookTitle" label-id="form.label.bookTitle" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookAuthors" label-id="form.label.bookAuthors" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:nrOfPages" label-id="form.label.nrOfPages" set="bookInfoset" read-only="true"/>
@@ -522,7 +537,7 @@
                     <!-- UPDATED appearance -->
                     <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
                     <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" />
-                    <field id="bookpub:bookTitle" label-id="form.label.booktitle" set="bookInfoset" />
+                    <field id="bookpub:bookTitle" label-id="form.label.bookTitle" set="bookInfoset" />
                     <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" />
                     <field id="bookpub:bookAuthors" label-id="form.label.bookAuthors" set="bookInfoset" read-only="true"/>
                 </appearance>
@@ -649,7 +664,7 @@
                     <!-- UPDATED appearance -->
                     <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
                     <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
-                    <field id="bookpub:bookTitle" label-id="form.label.booktitle" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookTitle" label-id="form.label.bookTitle" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
 
                     <set id="chapterInfoSet" appearance="bordered-panel" label-id="form.chapterInfo"/>
@@ -684,7 +699,7 @@
                     <!-- UPDATED appearance -->
                     <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
                     <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
-                    <field id="bookpub:bookTitle" label-id="form.label.booktitle" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookTitle" label-id="form.label.bookTitle" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
 
                     <set id="chapterInfoSet" appearance="bordered-panel" label-id="form.chapterInfo"/>
@@ -716,7 +731,7 @@
                     <!-- UPDATED appearance -->
                     <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
                     <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
-                    <field id="bookpub:bookTitle" label-id="form.label.booktitle" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookTitle" label-id="form.label.bookTitle" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
 
                     <set id="chapterInfoSet" appearance="bordered-panel" label-id="form.chapterInfo"/>
@@ -844,7 +859,7 @@
                     <!-- UPDATED appearance -->
                     <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
                     <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
-                    <field id="bookpub:bookTitle" label-id="form.label.booktitle" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookTitle" label-id="form.label.bookTitle" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
                 </appearance>
             </form>
@@ -869,7 +884,7 @@
                     <!-- UPDATED appearance -->
                     <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
                     <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
-                    <field id="bookpub:bookTitle" label-id="form.label.booktitle" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookTitle" label-id="form.label.bookTitle" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
                 </appearance>
             </form>
@@ -891,7 +906,7 @@
                     <!-- UPDATED appearance -->
                     <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
                     <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
-                    <field id="bookpub:bookTitle" label-id="form.label.booktitle" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookTitle" label-id="form.label.bookTitle" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
                 </appearance>
             </form>
@@ -1013,7 +1028,7 @@
                     <!-- UPDATED appearance -->
                     <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
                     <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
-                    <field id="bookpub:bookTitle" label-id="form.label.booktitle" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookTitle" label-id="form.label.bookTitle" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
                 </appearance>
             </form>
@@ -1038,7 +1053,7 @@
                     <!-- UPDATED appearance -->
                     <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
                     <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
-                    <field id="bookpub:bookTitle" label-id="form.label.booktitle" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookTitle" label-id="form.label.bookTitle" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
                 </appearance>
             </form>
@@ -1060,7 +1075,7 @@
                     <!-- UPDATED appearance -->
                     <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
                     <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
-                    <field id="bookpub:bookTitle" label-id="form.label.booktitle" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookTitle" label-id="form.label.bookTitle" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
                 </appearance>
             </form>
