@@ -17,9 +17,23 @@
         =============================================================================================================-->
 
     <config evaluator="string-compare" condition="DocumentLibrary">
+        <aspects>
+            <visible>
+                <aspect name="bookpub:bookInfo"/>
+                <aspect name="bookpub:chapterInfo"/>
+                <aspect name="bookpub:webPublishingInfo"/>
+            </visible>
+            <addable> <!-- defaults to visible config -->
+            </addable>
+            <removeable> <!-- defaults to visible config -->
+            </removeable>
+        </aspects>
         <types>
             <type name="cm:content">
                 <subtype name="bookpub:bookFile"/>
+                <subtype name="bookpub:chapterFile"/>
+                <subtype name="bookpub:artworkFile"/>
+                <subtype name="bookpub:supplementaryFile"/>
             </type>
             <type name="cm:folder">
                 <subtype name="bookpub:bookFolder"/>
@@ -46,6 +60,18 @@
                 <line index="10" id="date">{date}{size}</line>
                 <line index="20" id="bookInfo" view="detailed">{bookpub_ISBN form.label.isbn}{bookpub_nrOfPages form.label.nrOfPages}</line>
                 <line index="30" id="bookTitle" view="detailed">{bookpub_bookTitle form.label.bookTitle}</line>
+                <line index="40" id="tags" view="detailed">{tags}</line>
+                <line index="50" id="categories" view="detailed" evaluator="evaluator.doclib.metadata.hasCategories">{categories}</line>
+                <line index="60" id="social" view="detailed">{social}</line>
+            </template>
+            <template id="isChapterInfo">
+                <evaluator>evaluator.doclib.bestpub.hasChapterInfo</evaluator>
+                <banner index="10" id="lockBanner" evaluator="evaluator.doclib.metadata.hasLockBanner">{lockBanner}</banner>
+                <banner index="20" id="syncTransientError" evaluator="evaluator.doclib.metadata.hasSyncTransientErrorBanner">{syncTransientError}</banner>
+                <banner index="30" id="syncFailed" evaluator="evaluator.doclib.metadata.hasSyncFailedBanner">{syncFailed}</banner>
+                <line index="10" id="date">{date}{size}</line>
+                <line index="20" id="bookTitle" view="detailed">{bookpub_bookTitle form.label.bookTitle}</line>
+                <line index="30" id="chapterInfo" view="detailed">{bookpub_chapterTitle form.label.chapterTitle}{bookpub_chapterAuthor form.label.chapterAuthor}</line>
                 <line index="40" id="tags" view="detailed">{tags}</line>
                 <line index="50" id="categories" view="detailed" evaluator="evaluator.doclib.metadata.hasCategories">{categories}</line>
                 <line index="60" id="social" view="detailed">{social}</line>
@@ -184,26 +210,12 @@
         <forms>
             <form>
                 <field-visibility>
-                    <show id="cm:name" />
-                    <show id="cm:title" force="true" />
-                    <show id="cm:description" force="true" />
-
                     <show id="cm:creator" for-mode="view" />
                     <show id="cm:created" for-mode="view" />
                     <show id="cm:modifier" for-mode="view" />
                     <show id="cm:modified" for-mode="view" />
 
-                    <!-- cm:ownable aspect -->
-                    <show id="cm:owner" />
-
-                    <!-- tags and categories -->
-                    <show id="cm:taggable" for-mode="edit" force="true" />
-                    <show id="cm:categories" />
-
-                    <!-- emailserver:aliasable aspect -->
-                    <show id="emailserver:alias" />
-
-                    <!-- ADDED custom metadata -->
+                   <!-- ADDED custom metadata -->
                     <show id="bookpub:ISBN" for-mode="view"/>
                     <show id="bookpub:bookTitle"/>
                     <show id="bookpub:bookGenre"/>
@@ -211,27 +223,31 @@
                     <show id="bookpub:nrOfPages" for-mode="view"/>
                     <show id="bookpub:nrOfChapters" for-mode="view"/>
                     <show id="bookpub:bookMetadataStatus" for-mode="view"/>
-                    <show id="bookpub:bookProductionStatus" for-mode="view"/>
                     <show id="bookpub:webPublishedDate" for-mode="view"/>
                     <show id="bookpub:webPublishedVersion" for-mode="view"/>
-                    <show id="bookpub:webServerDeliveryOK"/>
+                    <show id="bookpub:webServerDeliveryOK" for-mode="view"/>
                 </field-visibility>
                 <appearance>
                     <!-- UPDATED appearance -->
-                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
+                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.header.bookinfo"/>
                     <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
-                    <field id="bookpub:bookTitle" label-id="form.label.bookTitle" set="bookInfoset" read-only="true"/>
-                    <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
-                    <field id="bookpub:bookAuthors" label-id="form.label.bookAuthors" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookTitle" label-id="form.label.bookTitle" set="bookInfoset" />
+                    <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" />
+                    <field id="bookpub:bookAuthors" label-id="form.label.bookAuthors" set="bookInfoset" />
                     <field id="bookpub:nrOfPages" label-id="form.label.nrOfPages" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:nrOfChapters" label-id="form.label.nrOfChapters" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookMetadataStatus" label-id="form.label.bookMetadataStatus" set="bookInfoset" read-only="true"/>
-                    <field id="bookpub:bookProductionStatus" label-id="form.label.bookProductionStatus" set="bookInfoset" read-only="true"/>
 
-                    <set id="publishingInfoSet" appearance="bordered-panel" label-id="form.webPublishingInfo"/>
+                    <set id="publishingInfoSet" appearance="bordered-panel" label-id="form.header.webPublishingInfo"/>
                     <field id="bookpub:webPublishedDate" label-id="form.label.webPublishedDate" set="publishingInfoSet" read-only="true"/>
                     <field id="bookpub:webPublishedVersion" label-id="form.label.webPublishedVersion" set="publishingInfoSet" read-only="true"/>
                     <field id="bookpub:webServerDeliveryOK" label-id="form.label.webServerDeliveryOK" set="publishingInfoSet" read-only="true"/>
+
+                    <set id="cm:folder2col" template="/org/alfresco/components/form/2-column-set.ftl" />
+                    <field set="cm:folder2col" id="cm:creator" />
+                    <field set="cm:folder2col" id="cm:created" />
+                    <field set="cm:folder2col" id="cm:modifier" />
+                    <field set="cm:folder2col" id="cm:modified" />
                 </appearance>
             </form>
         </forms>
@@ -242,9 +258,8 @@
         <forms>
             <form id="search">
                 <field-visibility>
-                    <show id="cm:name" />
-                    <show id="cm:title" force="true" />
-                    <show id="cm:description" force="true" />
+                    <show id="cm:created"/>
+                    <show id="cm:modified"/>
 
                     <!-- ADDED custom metadata -->
                     <show id="bookpub:ISBN"/>
@@ -252,23 +267,28 @@
                     <show id="bookpub:bookGenre"/>
                     <show id="bookpub:bookAuthors" />
                     <show id="bookpub:bookMetadataStatus"/>
-                    <show id="bookpub:bookProductionStatus"/>
                     <show id="bookpub:webPublishedDate"/>
                     <show id="bookpub:webPublishedVersion"/>
                 </field-visibility>
                 <appearance>
                     <!-- UPDATED appearance -->
-                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
+                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.header.bookinfo"/>
                     <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" />
                     <field id="bookpub:bookTitle" label-id="form.label.bookTitle" set="bookInfoset" />
                     <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" />
                     <field id="bookpub:bookAuthors" label-id="form.label.bookAuthors" set="bookInfoset" />
                     <field id="bookpub:bookMetadataStatus" label-id="form.label.bookMetadataStatus" set="bookInfoset" />
-                    <field id="bookpub:bookProductionStatus" label-id="form.label.bookProductionStatus" set="bookInfoset" />
 
-                    <set id="publishingInfoSet" appearance="bordered-panel" label-id="form.webPublishingInfo"/>
+                    <set id="publishingInfoSet" appearance="bordered-panel" label-id="form.header.webPublishingInfo"/>
                     <field id="bookpub:webPublishedDate" label-id="form.label.webPublishedDate" set="publishingInfoSet" />
                     <field id="bookpub:webPublishedVersion" label-id="form.label.webPublishedVersion" set="publishingInfoSet" />
+
+                    <field id="cm:created" set="general">
+                        <control template="/org/alfresco/components/form/controls/daterange.ftl"/>
+                    </field>
+                    <field id="cm:modified" set="general">
+                        <control template="/org/alfresco/components/form/controls/daterange.ftl"/>
+                    </field>
                 </appearance>
             </form>
         </forms>
@@ -284,8 +304,6 @@
             <form>
                 <field-visibility>
                     <show id="cm:name" />
-                    <show id="cm:title" force="true" />
-                    <show id="cm:description" force="true" />
 
                     <show id="cm:creator" for-mode="view" />
                     <show id="cm:created" for-mode="view" />
@@ -306,23 +324,29 @@
                     <show id="bookpub:ISBN" for-mode="view"/>
                     <show id="bookpub:bookGenre" for-mode="view"/>
                     <show id="bookpub:bookTitle" for-mode="view"/>
-                    <show id="bookpub:chapterNumber" for-mode="view"/>
-                    <show id="bookpub:chapterAuthor" for-mode="view"/>
-                    <show id="bookpub:chapterTitle" for-mode="view"/>
+                    <show id="bookpub:chapterNumber" for-mode="view" />
+                    <show id="bookpub:chapterAuthor" />
+                    <show id="bookpub:chapterTitle" />
                     <show id="bookpub:chapterMetadataStatus" for-mode="view"/>
                 </field-visibility>
                 <appearance>
                     <!-- UPDATED appearance -->
-                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
+                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.header.bookinfo"/>
                     <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookTitle" label-id="form.label.bookTitle" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
 
-                    <set id="chapterInfoSet" appearance="bordered-panel" label-id="form.chapterInfo"/>
+                    <set id="chapterInfoSet" appearance="bordered-panel" label-id="form.header.chapterInfo"/>
                     <field id="bookpub:chapterNumber" label-id="form.label.chapterNumber" set="chapterInfoSet" read-only="true"/>
                     <field id="bookpub:chapterAuthor" label-id="form.label.chapterAuthor" set="chapterInfoSet" />
-                    <field id="bookpub:chapterTitle" label-id="form.label.chapterTitle" set="chapterInfoSet" read-only="true"/>
+                    <field id="bookpub:chapterTitle" label-id="form.label.chapterTitle" set="chapterInfoSet" />
                     <field id="bookpub:chapterMetadataStatus" label-id="form.label.chapterMetadataStatus" set="chapterInfoSet" read-only="true"/>
+
+                    <set id="cm:folder2col" template="/org/alfresco/components/form/2-column-set.ftl" />
+                    <field set="cm:folder2col" id="cm:creator" />
+                    <field set="cm:folder2col" id="cm:created" />
+                    <field set="cm:folder2col" id="cm:modifier" />
+                    <field set="cm:folder2col" id="cm:modified" />
                 </appearance>
             </form>
         </forms>
@@ -444,13 +468,19 @@
                 </field-visibility>
                 <appearance>
                     <!-- UPDATED appearance -->
-                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
+                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.header.bookinfo"/>
                     <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookTitle" label-id="form.label.bookTitle" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookAuthors" label-id="form.label.bookAuthors" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:nrOfPages" label-id="form.label.nrOfPages" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:nrOfChapters" label-id="form.label.nrOfChapters" set="bookInfoset" read-only="true"/>
+
+                    <set id="cm:folder2col" template="/org/alfresco/components/form/2-column-set.ftl" />
+                    <field set="cm:folder2col" id="cm:creator" />
+                    <field set="cm:folder2col" id="cm:created" />
+                    <field set="cm:folder2col" id="cm:modifier" />
+                    <field set="cm:folder2col" id="cm:modified" />
                 </appearance>
             </form>
 
@@ -475,7 +505,7 @@
                 <edit-form template="../documentlibrary/forms/doclib-simple-metadata.ftl" />
                 <appearance>
                     <!-- UPDATED appearance -->
-                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
+                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.header.bookinfo"/>
                     <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookTitle" label-id="form.label.bookTitle" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
@@ -503,7 +533,7 @@
                 </field-visibility>
                 <appearance>
                     <!-- UPDATED appearance -->
-                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
+                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.header.bookinfo"/>
                     <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookTitle" label-id="form.label.bookTitle" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
@@ -520,12 +550,9 @@
         <forms>
             <form id="search">
                 <field-visibility>
-                    <show id="cm:name" />
-                    <show id="cm:title" force="true" />
-                    <show id="cm:description" force="true" />
                     <show id="mimetype" />
+                    <show id="cm:created" />
                     <show id="cm:modified" />
-                    <show id="cm:modifier" />
 
                     <!-- ADDED custom metadata -->
                     <show id="bookpub:ISBN" />
@@ -535,11 +562,19 @@
                 </field-visibility>
                 <appearance>
                     <!-- UPDATED appearance -->
-                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
+                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.header.bookinfo"/>
                     <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" />
                     <field id="bookpub:bookTitle" label-id="form.label.bookTitle" set="bookInfoset" />
                     <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" />
-                    <field id="bookpub:bookAuthors" label-id="form.label.bookAuthors" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookAuthors" label-id="form.label.bookAuthors" set="bookInfoset"/>
+
+                    <set id="general" appearance="title" label="Standard properties"/>
+                    <field id="cm:created" set="general">
+                        <control template="/org/alfresco/components/form/controls/daterange.ftl"/>
+                    </field>
+                    <field id="cm:modified" set="general">
+                        <control template="/org/alfresco/components/form/controls/daterange.ftl"/>
+                    </field>
                 </appearance>
             </form>
         </forms>
@@ -555,10 +590,7 @@
             <form>
                 <field-visibility>
                     <show id="cm:name" />
-                    <show id="cm:title" force="true" />
-                    <show id="cm:description" force="true" />
                     <show id="mimetype" />
-                    <show id="cm:author" force="true" />
                     <show id="size" for-mode="view" />
                     <show id="cm:creator" for-mode="view" />
                     <show id="cm:created" for-mode="view" />
@@ -662,16 +694,22 @@
                 </field-visibility>
                 <appearance>
                     <!-- UPDATED appearance -->
-                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
+                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.header.bookinfo"/>
                     <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookTitle" label-id="form.label.bookTitle" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
 
-                    <set id="chapterInfoSet" appearance="bordered-panel" label-id="form.chapterInfo"/>
+                    <set id="chapterInfoSet" appearance="bordered-panel" label-id="form.header.chapterInfo"/>
                     <field id="bookpub:chapterNumber" label-id="form.label.chapterNumber" set="chapterInfoSet" read-only="true"/>
-                    <field id="bookpub:chapterAuthor" label-id="form.label.chapterAuthor" set="chapterInfoSet" />
+                    <field id="bookpub:chapterAuthor" label-id="form.label.chapterAuthor" set="chapterInfoSet" read-only="true"/>
                     <field id="bookpub:chapterTitle" label-id="form.label.chapterTitle" set="chapterInfoSet" read-only="true"/>
                     <field id="bookpub:chapterMetadataStatus" label-id="form.label.chapterMetadataStatus" set="chapterInfoSet" read-only="true"/>
+
+                    <set id="cm:folder2col" template="/org/alfresco/components/form/2-column-set.ftl" />
+                    <field set="cm:folder2col" id="cm:creator" />
+                    <field set="cm:folder2col" id="cm:created" />
+                    <field set="cm:folder2col" id="cm:modifier" />
+                    <field set="cm:folder2col" id="cm:modified" />
                 </appearance>
             </form>
 
@@ -697,14 +735,14 @@
                 <edit-form template="../documentlibrary/forms/doclib-simple-metadata.ftl" />
                 <appearance>
                     <!-- UPDATED appearance -->
-                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
+                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.header.bookinfo"/>
                     <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookTitle" label-id="form.label.bookTitle" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
 
-                    <set id="chapterInfoSet" appearance="bordered-panel" label-id="form.chapterInfo"/>
+                    <set id="chapterInfoSet" appearance="bordered-panel" label-id="form.header.chapterInfo"/>
                     <field id="bookpub:chapterNumber" label-id="form.label.chapterNumber" set="chapterInfoSet" read-only="true"/>
-                    <field id="bookpub:chapterAuthor" label-id="form.label.chapterAuthor" set="chapterInfoSet" />
+                    <field id="bookpub:chapterAuthor" label-id="form.label.chapterAuthor" set="chapterInfoSet" read-only="true"/>
                     <field id="bookpub:chapterTitle" label-id="form.label.chapterTitle" set="chapterInfoSet" read-only="true"/>
                     <field id="bookpub:chapterMetadataStatus" label-id="form.label.chapterMetadataStatus" set="chapterInfoSet" read-only="true"/>
                 </appearance>
@@ -729,14 +767,14 @@
                 </field-visibility>
                 <appearance>
                     <!-- UPDATED appearance -->
-                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
+                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.header.bookinfo"/>
                     <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookTitle" label-id="form.label.bookTitle" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
 
-                    <set id="chapterInfoSet" appearance="bordered-panel" label-id="form.chapterInfo"/>
+                    <set id="chapterInfoSet" appearance="bordered-panel" label-id="form.header.chapterInfo"/>
                     <field id="bookpub:chapterNumber" label-id="form.label.chapterNumber" set="chapterInfoSet" read-only="true"/>
-                    <field id="bookpub:chapterAuthor" label-id="form.label.chapterAuthor" set="chapterInfoSet" />
+                    <field id="bookpub:chapterAuthor" label-id="form.label.chapterAuthor" set="chapterInfoSet" read-only="true"/>
                     <field id="bookpub:chapterTitle" label-id="form.label.chapterTitle" set="chapterInfoSet" read-only="true"/>
                     <field id="bookpub:chapterMetadataStatus" label-id="form.label.chapterMetadataStatus" set="chapterInfoSet" read-only="true"/>
                 </appearance>
@@ -754,10 +792,7 @@
             <form>
                 <field-visibility>
                     <show id="cm:name" />
-                    <show id="cm:title" force="true" />
-                    <show id="cm:description" force="true" />
                     <show id="mimetype" />
-                    <show id="cm:author" force="true" />
                     <show id="size" for-mode="view" />
                     <show id="cm:creator" for-mode="view" />
                     <show id="cm:created" for-mode="view" />
@@ -857,10 +892,16 @@
                 </field-visibility>
                 <appearance>
                     <!-- UPDATED appearance -->
-                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
+                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.header.bookinfo"/>
                     <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookTitle" label-id="form.label.bookTitle" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
+
+                    <set id="cm:folder2col" template="/org/alfresco/components/form/2-column-set.ftl" />
+                    <field set="cm:folder2col" id="cm:creator" />
+                    <field set="cm:folder2col" id="cm:created" />
+                    <field set="cm:folder2col" id="cm:modifier" />
+                    <field set="cm:folder2col" id="cm:modified" />
                 </appearance>
             </form>
 
@@ -882,7 +923,7 @@
                 <edit-form template="../documentlibrary/forms/doclib-simple-metadata.ftl" />
                 <appearance>
                     <!-- UPDATED appearance -->
-                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
+                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.header.bookinfo"/>
                     <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookTitle" label-id="form.label.bookTitle" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
@@ -904,7 +945,7 @@
                 </field-visibility>
                 <appearance>
                     <!-- UPDATED appearance -->
-                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
+                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.header.bookinfo"/>
                     <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookTitle" label-id="form.label.bookTitle" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
@@ -923,10 +964,7 @@
             <form>
                 <field-visibility>
                     <show id="cm:name" />
-                    <show id="cm:title" force="true" />
-                    <show id="cm:description" force="true" />
                     <show id="mimetype" />
-                    <show id="cm:author" force="true" />
                     <show id="size" for-mode="view" />
                     <show id="cm:creator" for-mode="view" />
                     <show id="cm:created" for-mode="view" />
@@ -1026,10 +1064,16 @@
                 </field-visibility>
                 <appearance>
                     <!-- UPDATED appearance -->
-                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
+                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.header.bookinfo"/>
                     <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookTitle" label-id="form.label.bookTitle" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
+
+                    <set id="cm:folder2col" template="/org/alfresco/components/form/2-column-set.ftl" />
+                    <field set="cm:folder2col" id="cm:creator" />
+                    <field set="cm:folder2col" id="cm:created" />
+                    <field set="cm:folder2col" id="cm:modifier" />
+                    <field set="cm:folder2col" id="cm:modified" />
                 </appearance>
             </form>
 
@@ -1051,7 +1095,7 @@
                 <edit-form template="../documentlibrary/forms/doclib-simple-metadata.ftl" />
                 <appearance>
                     <!-- UPDATED appearance -->
-                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
+                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.header.bookinfo"/>
                     <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookTitle" label-id="form.label.bookTitle" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>
@@ -1073,7 +1117,7 @@
                 </field-visibility>
                 <appearance>
                     <!-- UPDATED appearance -->
-                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.bookinfo"/>
+                    <set id="bookInfoset" appearance="bordered-panel" label-id="form.header.bookinfo"/>
                     <field id="bookpub:ISBN" label-id="form.label.isbn" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookTitle" label-id="form.label.bookTitle" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" read-only="true"/>

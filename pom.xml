@@ -5,8 +5,8 @@
     <groupId>org.marversolutions.bestpublishing</groupId>
     <artifactId>content-model-ui</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>content-model-ui Share Jar Module - SDK 3</name>
-    <description>Share JAR Module (to be included in the share.war) - SDK 3</description>
+    <name>Share Content Model UI Config</name>
+    <description>Share JAR Module with Best Publishing content model user inteface configuration</description>
     <packaging>jar</packaging>
 
     <properties>

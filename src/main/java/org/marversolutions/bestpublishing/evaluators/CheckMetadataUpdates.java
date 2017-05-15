@@ -53,6 +53,9 @@ public class CheckMetadataUpdates extends BaseEvaluator {
      */
     private boolean checkMetadataStatus(String isbnNodeRef) {
         boolean result = false;
+
+        return result;
+        /*
         try {
             final RequestContext rc = ThreadLocalRequestContext.getRequestContext();
             final String userId = rc.getUserId();
@@ -74,5 +77,6 @@ public class CheckMetadataUpdates extends BaseEvaluator {
             throw new AlfrescoRuntimeException("Failed to parse JSON string: " + e.getMessage());
         }
         return result;
+        */
     }
 }

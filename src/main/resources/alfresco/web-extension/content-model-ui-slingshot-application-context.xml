@@ -47,6 +47,14 @@
          </list>
       </property>
    </bean>
+   <bean id="evaluator.doclib.bestpub.hasChapterInfo" class="org.alfresco.web.evaluator.HasAspectEvaluator">
+      <property name="aspects">
+         <list>
+            <value>bookpub:bookInfo</value>
+            <value>bookpub:chapterInfo</value>
+         </list>
+      </property>
+   </bean>
    <bean id="evaluator.doclib.bestpub.bookFolderPublished" parent="evaluator.doclib.action.propertyNotNull">
       <property name="property" value="bookpub:webPublishedDate"/>
    </bean>
