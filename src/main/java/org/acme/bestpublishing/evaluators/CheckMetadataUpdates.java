@@ -14,19 +14,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package org.marversolutions.bestpublishing.evaluators;
+package org.acme.bestpublishing.evaluators;
 
-import org.alfresco.error.AlfrescoRuntimeException;
 import org.alfresco.web.evaluator.BaseEvaluator;
-import org.json.JSONException;
 import org.json.simple.JSONObject;
-import org.springframework.extensions.surf.RequestContext;
-import org.springframework.extensions.surf.ServletUtil;
-import org.springframework.extensions.surf.exception.ConnectorServiceException;
-import org.springframework.extensions.surf.support.ThreadLocalRequestContext;
-import org.springframework.extensions.webscripts.Status;
-import org.springframework.extensions.webscripts.connector.Connector;
-import org.springframework.extensions.webscripts.connector.Response;
 
 /**
  * This evaluator checks if the book metadata

@@ -14,7 +14,7 @@
    -->
 
    <!-- Add module specific messages and labels -->
-   <bean id="content-model-ui.resources"
+   <bean id="org.acme.bestpublishing.content-model-ui.resources"
          class="org.springframework.extensions.surf.util.ResourceBundleBootstrapComponent">
       <property name="resourceBundles">
          <list>
@@ -60,7 +60,7 @@
    </bean>
    <!-- Check if the metadata has been updated since the last published date -->
    <bean id="evaluator.doclib.indicator.isMetadataUpdated"
-         class="org.marversolutions.bestpublishing.evaluators.CheckMetadataUpdates" />
+         class="org.acme.bestpublishing.evaluators.CheckMetadataUpdates" />
 
 
 
