@@ -8,4 +8,4 @@
 /*.ipr
 **/.externalToolBuilders
 /.idea
-
+**/.DS_Store
