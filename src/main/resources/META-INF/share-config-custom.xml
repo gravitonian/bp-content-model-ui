@@ -28,6 +28,7 @@
             <removeable> <!-- defaults to visible config -->
             </removeable>
         </aspects>
+
         <types>
             <type name="cm:content">
                 <subtype name="bookpub:bookFile"/>
@@ -40,16 +41,6 @@
                 <subtype name="bookpub:chapterFolder"/>
             </type>
         </types>
-
-        <indicators>
-            <indicator id="indicator.doclib.action.bookWebPublished"
-                       icon="book-publish-16.png"
-                       index="100"
-                       label="indicator.label.doclib.action.bookWebPublished">
-                <evaluator>evaluator.doclib.bestpub.bookFolderType</evaluator>
-                <evaluator>evaluator.doclib.bestpub.bookFolderPublished</evaluator>
-            </indicator>
-        </indicators>
 
         <metadata-templates>
             <template id="isBookInfo">
@@ -80,17 +71,6 @@
     </config>
 
     <!--================================================================================================================
-          Load any custom JavaScript files with DocLib implementations etc.
-      =============================================================================================================-->
-
-    <config evaluator="string-compare" condition="DocLibCustom">
-        <dependencies>
-            <js src="content-model-ui/js/custom-actions.js"/> <!-- Load custom doc lib actions -->
-        </dependencies>
-        <dependencies/>
-    </config>
-
-    <!--================================================================================================================
           Advanced Search Forms for types
           (search forms for aspects are not available)
       =============================================================================================================-->
@@ -112,81 +92,6 @@
                 </form>
             </forms>
         </advanced-search>
-    </config>
-
-    <!--================================================================================================================
-             Document Library Actions
-         =============================================================================================================-->
-
-    <config evaluator="string-compare" condition="DocLibActions">
-        <actions>
-            <!-- Add custom evaluator to Delete Folder action so we can hide it for Chapter folders,
-                 deleting such a folder requires custom functionality -->
-            <action id="document-delete" type="javascript" label="actions.document.delete">
-                <param name="function">onActionDelete</param>
-                <permissions>
-                    <permission allow="true">Delete</permission>
-                </permissions>
-                <evaluator>evaluator.doclib.action.editableByCurrentUser</evaluator>
-                <evaluator>evaluator.doclib.action.isNotPartOfHybridWorklfow</evaluator>
-                <evaluator>evaluator.doclib.action.isDeletable</evaluator>
-                <evaluator negate="true">evaluator.doclib.bestpub.chapterFolderType</evaluator>
-            </action>
-
-            <!-- Custom Best Publishing DocLib actions -->
-            <action id="bestpub.doclib.action.publishContentToWeb"
-                    icon="document-publish"
-                    type="javascript"
-                    label="doclib.action.label.publish.to.web">
-                <param name="function">onActionPublishToWeb</param>
-                <param name="successMessage">message.publish-web.success</param>
-                <param name="failureMessage">message.publish-web.failure</param>
-                <evaluator>evaluator.doclib.bestpub.bookFolderType</evaluator>
-                <evaluator>evaluator.doclib.bestpub.bookFolderPublished</evaluator>
-                <evaluator>evaluator.doclib.indicator.isMetadataUpdated</evaluator>
-            </action>
-            <action id="bestpub.doclib.action.createChapterFolder"
-                    icon="chapter-create"
-                    type="javascript"
-                    label="doclib.action.label.create.chapter.folder">
-                <param name="function">onActionFormDialog</param>
-                <!-- calling the following alfresco repo action after the form has been submitted -->
-                <param name="itemKind">action</param>
-                <param name="itemId">org.maversolutions.bestpub.actions.createChapterAction</param>
-                <param name="mode">create</param>
-                <param name="destination">{node.nodeRef}</param>
-                <param name="successMessage">message.create-chapter-folder.success</param>
-                <param name="failureMessage">message.create-chapter-folder.failure</param>
-                <permissions>
-                    <permission allow="true">Write</permission>
-                </permissions>
-                <evaluator>evaluator.doclib.bestpub.bookFolderType</evaluator>
-            </action>
-            <action id="bestpub.doclib.action.deleteChapterFolder"
-                    icon="chapter-delete"
-                    type="javascript"
-                    label="doclib.action.label.delete.chapter.folder">
-                <param name="function">onDeleteChapter</param>
-                <param name="successMessage">message.delete-chapter-folder.success</param>
-                <param name="failureMessage">message.delete-chapter-folder.failure</param>
-                <permissions>
-                    <permission allow="true">Delete</permission>
-                </permissions>
-                <evaluator>evaluator.doclib.bestpub.chapterFolderType</evaluator>
-            </action>
-        </actions>
-        <actionGroups>
-            <actionGroup id="folder-browse">
-                <action index="700" id="bestpub.doclib.action.publishContentToWeb"/>
-                <action index="701" id="bestpub.doclib.action.createChapterFolder"/>
-                <action index="702" id="bestpub.doclib.action.deleteChapterFolder"/>
-            </actionGroup>
-            <actionGroup id="folder-details">
-                <action index="700" id="bestpub.doclib.action.publishContentToWeb"/>
-                <action index="701" id="bestpub.doclib.action.createChapterFolder"/>
-                <action index="702" id="bestpub.doclib.action.deleteChapterFolder"/>
-            </actionGroup>
-        </actionGroups>
     </config>
 
     <!--================================================================================================================

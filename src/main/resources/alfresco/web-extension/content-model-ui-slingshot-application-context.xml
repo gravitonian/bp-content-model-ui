@@ -81,14 +81,4 @@
       </property>
    </bean>
 
-   <bean id="evaluator.doclib.bestpub.bookFolderPublished" parent="evaluator.doclib.action.propertyNotNull">
-      <property name="property" value="bookpub:webPublishedDate"/>
-   </bean>
-
-   <!-- Check if the metadata has been updated since the last published date -->
-   <bean id="evaluator.doclib.indicator.isMetadataUpdated"
-         class="org.acme.bestpublishing.evaluators.CheckMetadataUpdates" />
-
-
-
 </beans>
