@@ -53,7 +53,7 @@
 
         <metadata-templates>
             <template id="isBookInfo">
-                <evaluator>evaluator.doclib.bestpub.hasBookInfo</evaluator>
+                <evaluator>evaluator.doclib.bestpub.isBookInfo</evaluator>
                 <banner index="10" id="lockBanner" evaluator="evaluator.doclib.metadata.hasLockBanner">{lockBanner}</banner>
                 <banner index="20" id="syncTransientError" evaluator="evaluator.doclib.metadata.hasSyncTransientErrorBanner">{syncTransientError}</banner>
                 <banner index="30" id="syncFailed" evaluator="evaluator.doclib.metadata.hasSyncFailedBanner">{syncFailed}</banner>
@@ -65,7 +65,7 @@
                 <line index="60" id="social" view="detailed">{social}</line>
             </template>
             <template id="isChapterInfo">
-                <evaluator>evaluator.doclib.bestpub.hasChapterInfo</evaluator>
+                <evaluator>evaluator.doclib.bestpub.isChapterInfo</evaluator>
                 <banner index="10" id="lockBanner" evaluator="evaluator.doclib.metadata.hasLockBanner">{lockBanner}</banner>
                 <banner index="20" id="syncTransientError" evaluator="evaluator.doclib.metadata.hasSyncTransientErrorBanner">{syncTransientError}</banner>
                 <banner index="30" id="syncFailed" evaluator="evaluator.doclib.metadata.hasSyncFailedBanner">{syncFailed}</banner>
