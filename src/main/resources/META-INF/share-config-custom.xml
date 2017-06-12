@@ -128,6 +128,7 @@
                     <show id="bookpub:nrOfPages" for-mode="view"/>
                     <show id="bookpub:nrOfChapters" for-mode="view"/>
                     <show id="bookpub:bookMetadataStatus" for-mode="view"/>
+                    <show id="bookpub:bookProcessingComplete" for-mode="view"/>
                     <show id="bookpub:webPublishedDate" for-mode="view"/>
                     <show id="bookpub:webPublishedVersion" for-mode="view"/>
                     <show id="bookpub:webServerDeliveryOK" for-mode="view"/>
@@ -142,6 +143,7 @@
                     <field id="bookpub:nrOfPages" label-id="form.label.nrOfPages" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:nrOfChapters" label-id="form.label.nrOfChapters" set="bookInfoset" read-only="true"/>
                     <field id="bookpub:bookMetadataStatus" label-id="form.label.bookMetadataStatus" set="bookInfoset" read-only="true"/>
+                    <field id="bookpub:bookProcessingComplete" label-id="form.label.bookProcessingComplete" set="bookInfoset" read-only="true"/>
 
                     <set id="publishingInfoSet" appearance="bordered-panel" label-id="form.header.webPublishingInfo"/>
                     <field id="bookpub:webPublishedDate" label-id="form.label.webPublishedDate" set="publishingInfoSet" read-only="true"/>
@@ -172,6 +174,7 @@
                     <show id="bookpub:bookGenre"/>
                     <show id="bookpub:bookAuthors" />
                     <show id="bookpub:bookMetadataStatus"/>
+                    <show id="bookpub:bookProcessingComplete"/>
                     <show id="bookpub:webPublishedDate"/>
                     <show id="bookpub:webPublishedVersion"/>
                 </field-visibility>
@@ -183,6 +186,7 @@
                     <field id="bookpub:bookGenre" label-id="form.label.bookGenre" set="bookInfoset" />
                     <field id="bookpub:bookAuthors" label-id="form.label.bookAuthors" set="bookInfoset" />
                     <field id="bookpub:bookMetadataStatus" label-id="form.label.bookMetadataStatus" set="bookInfoset" />
+                    <field id="bookpub:bookProcessingComplete" label-id="form.label.bookProcessingComplete" set="bookInfoset"/>
 
                     <set id="publishingInfoSet" appearance="bordered-panel" label-id="form.header.webPublishingInfo"/>
                     <field id="bookpub:webPublishedDate" label-id="form.label.webPublishedDate" set="publishingInfoSet" />
