@@ -15,7 +15,7 @@
     <parent>
         <groupId>org.acme.bestpublishing</groupId>
         <artifactId>best-publishing-parent</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.2</version>
     </parent>
 
     <properties>
@@ -24,6 +24,12 @@
         <maven.tomcat.port>8081</maven.tomcat.port>
 
     </properties>
+
+    <scm>
+        <connection>scm:git:https://github.com/gravitonian/bp-content-model-ui.git</connection>
+        <url>https://github.com/gravitonian/bp-content-model-ui</url>
+        <developerConnection>scm:git:https://github.com/gravitonian/bp-content-model-ui.git</developerConnection>
+    </scm>
 
     <dependencies>
         <!-- Following dependencies are needed for compiling Java code in src/main/java -->
@@ -96,5 +102,10 @@
             </testResource>
         </testResources>
     </build>
-
+    <repositories>
+        <repository>
+            <id>local-releases</id>
+            <url>http://localhost:8081/repository/maven-releases/</url>
+        </repository>
+    </repositories>
 </project>
